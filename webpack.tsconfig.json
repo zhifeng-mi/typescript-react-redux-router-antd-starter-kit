@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "removeComments": true,
+    "noImplicitReturns": true,
+    "noImplicitAny": false,
+    "preserveConstEnums": true,
+    "strictNullChecks":true,
+    "allowSyntheticDefaultImports": true,    
+    "outDir":"dist",
+    "jsx": "react",
+    "rootDir": "./src"
+  },
+  "awesomeTypescriptLoaderOptions": {
+    "useBabel": true,
+    "useCache": true,
+    "emitRequireType": false
+  },  
+  "exclude": [
+    "logs",
+    "node_modules",
+    "server_src"
+  ]
+}

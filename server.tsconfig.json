@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "es2015",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "removeComments": false,
+    "noImplicitReturns": true,
+    "noImplicitAny": true,
+    "preserveConstEnums": true,
+    "strictNullChecks":true,
+    "outDir":"live",
+    "jsx": "react",
+    "rootDir": "./server_src"
+  },
+  "exclude": [
+    "src",
+    "logs",
+    "node_modules"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "removeComments": false,
+    "noImplicitReturns": true,
+    "noImplicitAny": false,
+    "preserveConstEnums": true,
+    "strictNullChecks":true,
+    "allowSyntheticDefaultImports": true,        
+    "outDir":"test",
+    "jsx": "preserve"
+  },
+  "exclude": [
+    "logs",
+    "node_modules"
+  ]
+}
