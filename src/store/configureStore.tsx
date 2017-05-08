@@ -4,12 +4,17 @@ import {
   compose,
   Middleware,
 } from 'redux';
-import { browserHistory } from 'react-router';
+import createHistory from 'history/createBrowserHistory'
+
 import { routerMiddleware } from 'react-router-redux';
 import thunk from 'redux-thunk';
 import promiseMiddleware from '../middlewares/promiseMiddleware';
 import rootReducer from '../reducers';
-function configureStore(initialState) {
+
+
+export const history = createHistory()
+
+export function configureStore(initialState) {
     const store = createStore(
         rootReducer,
         initialState,
@@ -22,11 +27,10 @@ function configureStore(initialState) {
 
 function _getMiddleware(): Middleware[] {
   let middleware = [
-    routerMiddleware(browserHistory),
+    routerMiddleware(history),
     promiseMiddleware,
     thunk,
   ];
   return middleware;
 }
 
-export default configureStore;

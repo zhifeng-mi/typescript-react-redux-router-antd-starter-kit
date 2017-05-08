@@ -1,5 +1,10 @@
 import * as express from "express";
 import * as webpack from "webpack";
+import * as fs from "fs";
+import * as _ from "underscore";
+import {IReq,IRes,INext} from "./dao/model";
+import {Route} from "./model/class";
+
 const bodyParser = require('body-parser');
 const path = require('path');
 
@@ -20,21 +25,22 @@ app.use(bodyParser.json({ type: 'application/json' }))
 app.get('*', function(req:express.Request, res:express.Response) {
     res.sendFile(path.resolve(__dirname + "./../", '', 'index.html'))
 });
-app.post('/api/user/login', (req:express.Request, res:express.Response)=>{
-    const credentials = req.body;
-    if(credentials.user==='admin' && credentials.password==='123456'){
-        res.cookie('uid', '1', {domain:'127.0.0.1'});
-        res.cookie('type','admin');
-        res.json({'user': credentials.user, 'role': 'ADMIN', 'uid': 1});
-    }else{
-        res.status(500).send({'message' : 'Invalid user/password'});
-    }
+
+let routes:Route[] = [];
+fs.readdirSync(__dirname + '/routes').forEach(function (routeConfig: string) {
+  if (routeConfig.substr(-3) === '.js') {
+    let route = require(__dirname + '/routes/' + routeConfig);
+    routes.push(new Route(route.order,route.register,route.name));
+  }
 });
-app.post('/api/user/logout',(req:express.Request, res:express.Response)=>{
-    res.clearCookie('uid');
-    res.clearCookie('type');    
-    res.json({'message': 'Logout'});
+const routesExecutes = _.sortBy(routes,"order");
+routesExecutes.forEach(route => {
+    route.register(app)
 });
-app.listen(3000,()=>{
-    console.log("Server Running");
+
+
+const server = app.listen(3000,()=>{
+  const host = server.address().address;
+  const port = server.address().port;
+  console.log('App listening at http://%s:%s', host, port);
 })

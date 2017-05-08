@@ -5,16 +5,14 @@ import {connect} from 'react-redux';
 import action from '../../actions/action';
 import { RouteComponentProps } from 'react-router'
 
-class Home extends React.Component<any,any> {
+class Support extends React.Component<any,any> {
     static propTypes = {
         match: PropTypes.object.isRequired,
         location: PropTypes.object.isRequired,
         history: PropTypes.object.isRequired
-    }    
-
-
+    }
     componentWillMount() {
-        console.log("home");
+        console.log("support");
         console.log(this.props);
     }
 
@@ -23,7 +21,7 @@ class Home extends React.Component<any,any> {
         const {user,actions} = this.props;
         return (
             <div className="ant-layout-content">
-                HomePage
+                Support
             </div>
         );
     }
@@ -40,5 +38,4 @@ function mapDispatchToProps(dispatch) {
         api: bindActionCreators(action, dispatch)
     }
 }
-//export default connect(mapStateToProps, mapDispatchToProps)(Home);
-export default connect<any,any,RouteComponentProps<any>>(mapStateToProps, mapDispatchToProps)(Home)
+export default connect<any,any,RouteComponentProps<any>>(mapStateToProps, mapDispatchToProps)(Support)

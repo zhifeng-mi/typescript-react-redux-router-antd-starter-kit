@@ -1,25 +1,28 @@
 import * as React from 'react'
+import * as PropTypes from "prop-types";
 import {Icon, Menu,Affix} from 'antd'
 
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
 class Header extends React.Component<any,any> {
-    constructor (props,context) {
-        super(props,context);
+    static propTypes = {
+        match: PropTypes.object.isRequired,
+        location: PropTypes.object.isRequired,
+        history: PropTypes.object.isRequired
     }
     handleClick (key) {
         switch(key.key){
-        //   case 'support':
-        //     this.context.router.push('/support');
-        //     break;                                       
+            case 'support':
+                this.props.history.push('/support');
+                break;                                       
             case 'user:logout':
                 let dataObj = {
                     type: "USER_LOGOUT",
                     url: "/user/logout",
                 }        
                 this.props.api.postUrl(dataObj);      
-                this.props.router.push('/login');
+                this.props.history.push('/login');
                 break;
         }
     }
@@ -39,7 +42,7 @@ class Header extends React.Component<any,any> {
                 </Menu.Item>          
 
                 <Menu.Item key="support">
-                    <Icon type="search" />Support
+                    <Icon type="search" key="support"/>Support
                 </Menu.Item> 
                 <Menu.Item key="ticket">
                     <Icon type="book" />Ticket

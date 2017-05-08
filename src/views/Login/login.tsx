@@ -1,9 +1,14 @@
 import * as React from "react";
-import { PropTypes } from "react";
+import * as PropTypes from "prop-types";
 
 import {Input, Button, Row, Col,Form,message} from 'antd';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux'
+import { RouteComponentProps } from 'react-router'
+
+import {history} from '../../store/configureStore';
+
+
 import action from '../../actions/action';
 import 'antd/dist/antd.less';
 import './login.less'
@@ -19,16 +24,14 @@ interface LoginProps extends React.Props<any>{
     loginErrors:string;
 }
 interface State{
-
 }
-const contextTypes = {
-    router: PropTypes.object.isRequired,
-    store: PropTypes.object.isRequired
-};
+
 class Login extends React.Component<LoginProps,State> {
-    constructor(props, context){
-        super(props,context);
-    }
+    static propTypes = {
+        match: PropTypes.object.isRequired,
+        location: PropTypes.object.isRequired,
+        history: PropTypes.object.isRequired
+    }    
 
     componentWillReceiveProps(nextProps) {
         const error = nextProps.loginErrors;
@@ -41,7 +44,7 @@ class Login extends React.Component<LoginProps,State> {
             message.success('Login successfully');
         }
         if (user) {
-            this.props.router.replace('/home');
+            this.props.history.push("/home");
         }
     }    
     handleSubmit (e) {
@@ -60,7 +63,7 @@ class Login extends React.Component<LoginProps,State> {
         <Row className="login-row" type="flex" justify="space-around" align="middle">
             <Col span={8}>
             <div className="login-form">
-            <Form horizontal onSubmit={this.handleSubmit.bind(this)}>
+            <Form layout="horizontal" onSubmit={this.handleSubmit.bind(this)}>
                 <FormItem label="User:" labelCol={{ span: 6 }}  wrapperCol={{ span: 14 }}>
                 {getFieldDecorator("user", { initialValue: '' })(
                     <Input id="account" placeholder='Please input your account'/>
@@ -91,10 +94,9 @@ function mapStateToProps(state:any):any {
     return {user: null, loggingIn: user.loggingIn, loginErrors: user.loginErrors};
 }
 
-function mapDispatchToProps(dispatch:any) {
-    return {
+const mapDispatchToProps = (dispatch: any) =>{ return {
         api: bindActionCreators(action, dispatch)
     }
 }
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm)
+//export default LoginForm
+export default connect<LoginProps,any, RouteComponentProps<any>>(mapStateToProps, mapDispatchToProps)(LoginForm)
